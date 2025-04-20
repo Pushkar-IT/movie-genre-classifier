@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>🎬 Movie Genre Classifier</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(135deg, #2c3e50, #3498db);
+      color: #fff;
+      text-align: center;
+      padding: 50px;
+      margin: 0;
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.05);
+      padding: 40px;
+      border-radius: 20px;
+      display: inline-block;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    h1 {
+      font-size: 2.5em;
+      margin-bottom: 10px;
+    }
+
+    p {
+      margin-bottom: 20px;
+    }
+
+    input[type="file"] {
+      margin: 15px 0;
+      padding: 10px;
+      border-radius: 10px;
+      background: #ecf0f1;
+      color: #333;
+      cursor: pointer;
+    }
+
+    button {
+      padding: 12px 25px;
+      background: #e67e22;
+      border: none;
+      border-radius: 30px;
+      color: #fff;
+      font-size: 1em;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background: #d35400;
+    }
+
+    #result {
+      margin-top: 30px;
+      font-size: 1.5em;
+      font-weight: bold;
+      animation: fadeIn 1s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>🎥 Movie Genre Classifier</h1>
+    <p>Select a movie poster to predict its genre.</p>
+
+    <input type="file" id="posterInput" accept="image/*">
+    <button type="button" onclick="uploadPoster()">Predict Genre</button>
+
+
+    <div id="result"></div>
+  </div>
+
+  <script>
+    function uploadPoster() {
+      const input = document.getElementById('posterInput');
+      const file = input.files[0];
+
+      if (!file) {
+        alert("Please select a poster image first.");
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append("poster", file);
+
+      document.getElementById("result").innerText = "Predicting... 🔍";
+
+      fetch("http://127.0.0.1:5000/predict", {
+        method: "POST",
+        body: formData
+      })
+      .then(response => response.json())
+      .then(data => {
+        document.getElementById("result").innerText = "🎬 Predicted Genre: " + data.genre;
+      })
+      .catch(error => {
+        console.error("Error:", error);
+        document.getElementById("result").innerText = "❌ Something went wrong!";
+      });
+    }
+  </script>
+
+</body>
+</html>
