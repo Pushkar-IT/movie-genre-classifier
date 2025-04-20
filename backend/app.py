@@ -1,3 +1,6 @@
+import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'  # 0 = all logs, 1 = filter INFO, 2 = filter WARNING, 3 = filter ERROR
+
 from flask import Flask, request, jsonify
 import os
 os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
