@@ -15,7 +15,8 @@ app = Flask(__name__)
 CORS(app)
 
 # Load the trained model
-model = load_model(os.path.join("backend", "movie_genre_model.keras"))
+model = load_model("movie_genre_model.keras")
+
 
 # Define genres (must match your model's training labels)
 genres = ['Action', 'Adventure', 'Animation', 'Biography', 'Comedy', 'Crime',
